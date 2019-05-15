@@ -3,15 +3,19 @@
   if(isset($_GET['summonerName'])){
     $datastr = getRank($_GET['summonerName']);
     $data = json_decode($datastr, true);
-    $flex = $data[0];
-    $solo = $data[1];
 
-    if($flex == false){
-      echo "unranked";
-    };
-    if($solo == false){
-      echo "unranked";
-    };
+    if (sizeof($data) > 0) {
+      $flex = $data[0];
+    }
+
+    if (sizeof($data) > 1) {
+      $solo = $data[1];
+    }
+  };
+
+  if(isset($_GET['summonerName'])){
+    $sumdatastr = getSummoner($_GET['summonerName']);
+    $sumdata = json_decode($sumdatastr, true);
   }
 
   $ini = parse_ini_file($_SERVER["DOCUMENT_ROOT"] . "/finalproject/config.ini");
@@ -40,7 +44,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.5.3/css/foundation.min.css">
 <link rel="stylesheet" href="master.css">
 <script>
-  window.summonerName = "<?php echo $solo['summonerName']; ?>"
+  window.summonerName = "<?php echo $_GET['summonerName']; ?>"
 </script>
 </head>
 <body>
@@ -82,11 +86,13 @@
             <!-- Summoner name and level -->
             <div class="grid-x">
               <div class="cell">
-                <h3><?php echo $solo['summonerName'];?></h3>
-                <p> Summoner Level: <?php echo $data_decode['summonerLevel']; ?></p>
+                <h3><?php echo $_GET['summonerName']; ?></h3>
+                <p> Summoner Level: <?php echo $sumdata['summonerLevel']; ?></p>
               </div>
             </div>
+
             <!-- Solo ranked info -->
+            <?php if (isset($solo)) { ?>
             <div class="grid-x">
               <div class="cell">
                 <div class="card" style="width: 250px; border-color: gray;">
@@ -94,7 +100,7 @@
                     <h4> Ranked Solo </br></h4>
                   </div>
                   <div class="card-section">
-                    <strong><?php echo $solo['tier']; echo ' '; echo $solo['rank'];?></strong>
+                    <strong><?php if ($solo == true){echo $solo['tier']; echo ' '; echo $solo['rank'];} else echo 'Unranked'?></strong>
                     <p> Wins: <?php echo $solo['wins']; ?></p>
                     <p> Losses: <?php echo $solo['losses']; ?> </p>
                     <p> LP: <?php echo $solo['leaguePoints']; ?></p>
@@ -102,7 +108,9 @@
                 </div>
               </div>
             </div>
+            <?php } ?>
             <!-- Flex ranked info -->
+            <?php if (isset($flex)) { ?>
             <div class="grid-x">
               <div class="cell">
                 <div class="card" style="width: 250px; border-color: gray;">
@@ -110,7 +118,7 @@
                     <h4> Ranked Flex </br></h4>
                   </div>
                   <div class="card-section">
-                    <strong><?php echo $flex['tier']; echo ' '; echo $flex['rank'];?></strong>
+                    <strong><?php if($flex == true){echo $flex['tier']; echo ' '; echo $flex['rank'];} else echo 'Unranked';?></strong>
                     <p> Wins: <?php echo $flex['wins']; ?></p>
                     <p> Losses: <?php echo $flex['losses']; ?></p>
                     <p> LP: <?php echo $flex['leaguePoints']; ?></p>
@@ -118,6 +126,7 @@
                 </div>
               </div>
             </div>
+            <?php } ?>
           </div>
         </div>
       </div>
