@@ -39,6 +39,9 @@
 <title>League of Legends Stats</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.5.3/css/foundation.min.css">
 <link rel="stylesheet" href="master.css">
+<script>
+  window.summonerName = "<?php echo $solo['summonerName']; ?>"
+</script>
 </head>
 <body>
   <div class="top-bar">
@@ -72,47 +75,62 @@
       </div>
   </div>
   <div class="grid-container">
-    <div class="grid-x align-middle align-center">
-      <div class="cell">
-        <h3><?php echo $solo['summonerName'];?></h3>
-        <p> Summoner Level: <?php echo $data_decode['summonerLevel']; ?></p>
-      </div>
-      <div class="cell medium-12">
-        <div class="card" style="width: 250px; border-color: gray;">
-          <div class="card-divider">
-            <h4> Ranked Solo </br></h4>
-          </div>
-          <div class="card-section">
-            <strong><?php echo $solo['tier']; echo ' '; echo $solo['rank'];?></strong>
-            <p> Wins: <?php echo $solo['wins']; ?></p>
-            <p> Losses: <?php echo $solo['losses']; ?> </p>
-            <p> LP: <?php echo $solo['leaguePoints']; ?></p>
+    <div class="grid-x grid-margin-x">
+      <div class="cell shrink">
+        <div class="grid-x">
+          <div class="cell">
+            <!-- Summoner name and level -->
+            <div class="grid-x">
+              <div class="cell">
+                <h3><?php echo $solo['summonerName'];?></h3>
+                <p> Summoner Level: <?php echo $data_decode['summonerLevel']; ?></p>
+              </div>
+            </div>
+            <!-- Solo ranked info -->
+            <div class="grid-x">
+              <div class="cell">
+                <div class="card" style="width: 250px; border-color: gray;">
+                  <div class="card-divider">
+                    <h4> Ranked Solo </br></h4>
+                  </div>
+                  <div class="card-section">
+                    <strong><?php echo $solo['tier']; echo ' '; echo $solo['rank'];?></strong>
+                    <p> Wins: <?php echo $solo['wins']; ?></p>
+                    <p> Losses: <?php echo $solo['losses']; ?> </p>
+                    <p> LP: <?php echo $solo['leaguePoints']; ?></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Flex ranked info -->
+            <div class="grid-x">
+              <div class="cell">
+                <div class="card" style="width: 250px; border-color: gray;">
+                  <div class="card-divider">
+                    <h4> Ranked Flex </br></h4>
+                  </div>
+                  <div class="card-section">
+                    <strong><?php echo $flex['tier']; echo ' '; echo $flex['rank'];?></strong>
+                    <p> Wins: <?php echo $flex['wins']; ?></p>
+                    <p> Losses: <?php echo $flex['losses']; ?></p>
+                    <p> LP: <?php echo $flex['leaguePoints']; ?></p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="cell medium-12">
-        <div class="card" style="width: 250px; border-color: gray;">
-          <div class="card-divider">
-            <h4> Ranked Flex </br></h4>
-          </div>
-          <div class="card-section">
-            <strong><?php echo $flex['tier']; echo ' '; echo $flex['rank'];?></strong>
-            <p> Wins: <?php echo $flex['wins']; ?></p>
-            <p> Losses: <?php echo $flex['losses']; ?></p>
-            <p> LP: <?php echo $flex['leaguePoints']; ?></p>
-          </div>
-        </div>
-      </div>
+      <div class="cell auto">
+        <div id="champion-mastery-container" class="grid-x grid-margin-x"></div>
       </div>
     </div>
   </div>
 </div>
-  <div>
-    <!-- insert match history here -->
-  </div>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.5.3/js/foundation.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="summoner.js" type="module"></script>
 <script src="index.js" type="module"></script>
 <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script>

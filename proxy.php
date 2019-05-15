@@ -20,6 +20,8 @@ if($input['action']){
     $output = updateSummoner($input['name']);
   } else if ($input['action'] === 'getRank') {
     $output = getRank($input['name']);
+  } else if ($input['action'] === 'getChampionMastery'){
+    $output = getChampionMastery($input['name']);
   }
 
   echo $output;
@@ -75,7 +77,7 @@ function getRank($name) {
   return $file;
 }
 
-function getMatch($name){
+/*function getMatch($name){
   $matchID =
 
   $opts = array(
@@ -86,6 +88,38 @@ function getMatch($name){
   );
   $context = stream_context_create($opts);
   $file = file_get_contents("https://na1.api.riotgames.com/lol/match/v4/matches/{$matchID}", false, $context);
+
+  return $file;
+}
+
+function getMatchHistory($name){
+  $matchHistoryID =
+
+  $opts = array(
+    'http'=>array(
+      'method'=>"GET",
+      'header'=>'X-Riot-Token: ' . INI['API_KEY']
+    )
+  );
+  $context = stream_context_create($opts);
+  $file = file_get_contents("https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/{$matchID}", false, $context);
+
+  return $file;
+}*/
+
+function getChampionMastery($name){
+  $datastr = getSummoner($name);
+  $data = json_decode($datastr, true);
+  $summonerID = $data['id'];
+
+  $opts = array(
+    'http'=>array(
+      'method'=>"GET",
+      'header'=>'X-Riot-Token: ' . INI['API_KEY']
+    )
+  );
+  $context = stream_context_create($opts);
+  $file = file_get_contents("https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{$summonerID}", false, $context);
 
   return $file;
 }
