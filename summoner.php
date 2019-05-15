@@ -73,24 +73,34 @@
   </div>
   <div class="grid-container">
     <div class="grid-x align-middle align-center">
-      <strong><?php echo $solo['summonerName'];?></strong>
-      <p> Summoner Level: <?php echo $data_decode['summonerLevel']; ?></p>
+      <div class="cell">
+        <h3><?php echo $solo['summonerName'];?></h3>
+        <p> Summoner Level: <?php echo $data_decode['summonerLevel']; ?></p>
+      </div>
       <div class="cell medium-12">
         <div class="card" style="width: 250px; border-color: gray;">
-          <p> Ranked Solo </br></p>
-          <strong><?php echo $solo['tier']; echo ' '; echo $solo['rank'];?></strong>
-          <p> Wins: <?php echo $solo['wins']; ?></p>
-          <p> Losses: <?php echo $solo['losses']; ?> </p>
-          <p> LP: <?php echo $solo['leaguePoints']; ?></p>
+          <div class="card-divider">
+            <h4> Ranked Solo </br></h4>
+          </div>
+          <div class="card-section">
+            <strong><?php echo $solo['tier']; echo ' '; echo $solo['rank'];?></strong>
+            <p> Wins: <?php echo $solo['wins']; ?></p>
+            <p> Losses: <?php echo $solo['losses']; ?> </p>
+            <p> LP: <?php echo $solo['leaguePoints']; ?></p>
+          </div>
         </div>
       </div>
       <div class="cell medium-12">
         <div class="card" style="width: 250px; border-color: gray;">
-          <p> Ranked Flex </br></p>
-          <strong><?php echo $flex['tier']; echo ' '; echo $flex['rank'];?></strong>
-          <p> Wins: <?php echo $flex['wins']; ?></p>
-          <p> Losses: <?php echo $flex['losses']; ?></p>
-          <p> LP: <?php echo $flex['leaguePoints']; ?></p>
+          <div class="card-divider">
+            <h4> Ranked Flex </br></h4>
+          </div>
+          <div class="card-section">
+            <strong><?php echo $flex['tier']; echo ' '; echo $flex['rank'];?></strong>
+            <p> Wins: <?php echo $flex['wins']; ?></p>
+            <p> Losses: <?php echo $flex['losses']; ?></p>
+            <p> LP: <?php echo $flex['leaguePoints']; ?></p>
+          </div>
         </div>
       </div>
       </div>
