@@ -1,16 +1,11 @@
 <?php
+include($_SERVER["DOCUMENT_ROOT"] . "/finalproject/db.php");
 session_start();
 
 // initializing variables
 $username = "";
 $id = "";
 $errors = array();
-
-$ini = parse_ini_file($_SERVER["DOCUMENT_ROOT"] . "/finalproject/config.ini");
-$user = $ini['user'];
-$pass = $ini['pass'];
-$name = $ini['name'];
-$host = $ini['host'];
 
 // connect to the database
 $db = mysqli_connect($host, $name, $pass, $user);
@@ -32,9 +27,15 @@ if (isset($_POST['reg_user'])) {
 
   // first check the database to make sure
   // a user does not already exist with the same username and/or email
-  $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
-  $result = mysqli_query($db, $user_check_query);
-  $user = mysqli_fetch_assoc($result);
+  //$user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
+  //$result = mysqli_query($db, $user_check_query);
+  //$user = mysqli_fetch_assoc($result);
+
+  $stmt = mysqli_prepare($db, "SELECT * FROM users WHERE username=? LIMIT 1");
+  mysqli_stmt_bind_param($stmt, "s", $username);
+  mysqli_stmt_execute($stmt);
+  mysqli_stmt_bind_result($stmt, $id);
+  mysqli_stmt_fetch($stmt);
 
   if ($user) { // if user exists
     if ($user['username'] === $username) {
@@ -45,13 +46,26 @@ if (isset($_POST['reg_user'])) {
   // Finally, register user if there are no errors in the form
   if (count($errors) == 0) {
   	$password = password_hash($password_1, PASSWORD_BCRYPT);//encrypt the password before saving in the database
-  	$user_query = "INSERT INTO users (username, password)
-  			  VALUES('$username', '$password')";
-  	$suer_result = mysqli_query($db, $user_query);
+    $stmt = $mysqli->prepare("INSERT INTO users (username, password) VALUES(?, ?)");
+    $stmt->bind_param('ss', $username, $password)
 
-    $id_query = "SELECT id FROM users WHERE username='$username'";
-    $id_result = mysqli_query($db, $id_query);
-    $id = mysqli_fetch_assoc($id_result)['id'];
+    $username = '';
+    $password = '';
+
+    $stmt->execute();
+
+  	//$user_query = "INSERT INTO users (username, password) VALUES('$username', '$password')";
+  	//$suer_result = mysqli_query($db, $user_query);
+
+    $stmt = mysqli_prepare($db, "SELECT id FROM users WHERE username=?");
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $id);
+    mysqli_stmt_fetch($stmt)['id'];
+
+    //$id_query = "SELECT id FROM users WHERE username='$username'";
+    //$id_result = mysqli_query($db, $id_query);
+    //$id = mysqli_fetch_assoc($id_result)['id'];
 
   	$_SESSION['username'] = $username;
     $_SESSION['id'] = $id;

@@ -1,4 +1,5 @@
 <?php include('proxy.php');
+include('db.php');
 
   if(isset($_GET['summonerName'])){
     $datastr = getRank($_GET['summonerName']);
@@ -18,21 +19,24 @@
     $sumdata = json_decode($sumdatastr, true);
   }
 
-  $ini = parse_ini_file($_SERVER["DOCUMENT_ROOT"] . "/finalproject/config.ini");
-  $user = $ini['user'];
-  $pass = $ini['pass'];
-  $name = $ini['name'];
-  $host = $ini['host'];
   $id = $_SESSION['id'];
 
   // connect to the database
   $db = mysqli_connect($host, $name, $pass, $user);
 
-  $data_query = "SELECT Data FROM summonerdata WHERE UserID='$id' LIMIT 1";
-  $data_result = mysqli_query($db, $data_query);
-  $data_fetch = mysqli_fetch_assoc($data_result)['Data'];
+  //$data_query = "SELECT Data FROM summonerdata WHERE UserID='$id' LIMIT 1";
+  ///TODO: Use Parameter
 
-  $data_decode = json_decode($data_fetch, true);
+  $stmt = mysqli_prepare($db, "SELECT Data FROM summonerdata WHERE UserID = ?");
+  mysqli_stmt_bind_param($stmt, "i", $id);
+  mysqli_stmt_execute($stmt);
+  mysqli_stmt_bind_result($stmt, $id);
+  mysqli_stmt_fetch($stmt)['Data'];
+
+  //$data_result = mysqli_query($db, $data_query);
+  //$data_fetch = mysqli_fetch_assoc($data_result)['Data'];
+
+  $data_decode = json_decode($stmt, true);
 
  ?>
 <!doctype html>

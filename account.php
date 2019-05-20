@@ -54,8 +54,15 @@
               <a href="changepassword.php" type="submit" class="alert button">Change Password</a>
             </div>
             <div class="cell small-4">
-              <a href="deleteaccount.php" type="submit" class="warning button">Delete <?php echo $_SESSION['username']; ?><a>
+              <button href="deleteaccount.php" class="warning button" data-open="deleteModal">Delete <?php echo $_SESSION['username']; ?><button>
             </div>
+            <div class="reveal" id="deleteModal" data-reveal>
+              <h1>Are you sure you want to delete?</h1>
+                <a href="deleteaccount.php" type="submit" class="warning button">Delete <?php echo $_SESSION['username']; ?><a>
+              <button class="close-button" data-close aria-label="Close modal" type="button">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
         </div>
       </div>
     </div>
